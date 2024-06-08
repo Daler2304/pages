@@ -50,7 +50,6 @@
                     image.classList.remove('shrink');
                 }, 300);
 
-                console.log(`Координаты касания ${i+1}: (${x}, ${y})`);
             }
         }
 
@@ -65,7 +64,7 @@
             // Восстанавливаем изображение через 300 мс (время transition)
             setTimeout(() => {
                 image.classList.remove('shrink');
-            }, 300);
+            }, 3);
 
             console.log(`Координаты клика: (${x}, ${y})`);
         });
