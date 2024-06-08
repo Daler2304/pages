@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no">
     <title>Image Compression at Click Coordinates</title>
     <style>
         body {
@@ -39,9 +39,12 @@
         .balance {
             position: absolute;
             top: 10px; /* Расположение линии баланса от верхней части страницы */
-            left: 10px; /* Расположение линии баланса от левой части страницы */
+            right: 10px; /* Расположение линии баланса от правой части страницы */
             color: white;
             font-size: 20px;
+            background-color: black; /* Задаем черный цвет фона */
+            padding: 5px 10px; /* Добавляем отступы вокруг текста */
+            border-radius: 5px; /* Закругляем углы */
         }
         @keyframes popup {
             0% {
@@ -98,7 +101,7 @@
                 // Восстанавливаем изображение через 300 мс (время transition)
                 setTimeout(() => {
                     image.classList.remove('shrink');
-                }, 10);
+                }, 50);
 
                 createPopup(touches[i].clientX, touches[i].clientY);
             }
@@ -115,7 +118,7 @@
             // Восстанавливаем изображение через 300 мс (время transition)
             setTimeout(() => {
                 image.classList.remove('shrink');
-            }, 40);
+            }, 50);
 
             createPopup(event.clientX, event.clientY);
 
