@@ -35,6 +35,25 @@
     <script>
         const image = document.getElementById('image');
 
+        function handleTouchStart(event) {
+            const touches = event.touches;
+            for (let i = 0; i < touches.length; i++) {
+                const rect = image.getBoundingClientRect();
+                const x = touches[i].clientX - rect.left;
+                const y = touches[i].clientY - rect.top;
+
+                // Создаем эффект сжатия
+                image.classList.add('shrink');
+
+                // Восстанавливаем изображение через 300 мс (время transition)
+                setTimeout(() => {
+                    image.classList.remove('shrink');
+                }, 300);
+
+                console.log(`Координаты касания ${i+1}: (${x}, ${y})`);
+            }
+        }
+
         image.addEventListener('click', (event) => {
             const rect = image.getBoundingClientRect();
             const x = event.clientX - rect.left;
@@ -46,10 +65,12 @@
             // Восстанавливаем изображение через 300 мс (время transition)
             setTimeout(() => {
                 image.classList.remove('shrink');
-            }, 30);
+            }, 300);
 
             console.log(`Координаты клика: (${x}, ${y})`);
         });
+
+        image.addEventListener('touchstart', handleTouchStart);
     </script>
 </body>
 </html>
