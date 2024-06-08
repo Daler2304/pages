@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compression at Click Coordinates</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            position: relative;
+            overflow: hidden;
+        }
+        .image {
+            display: block;
+            max-width: 100%;
+            transition: transform 0.3s ease;
+        }
+        .shrink {
+            transform: scale(0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://play-lh.googleusercontent.com/sB6MIaFnuyAuhyRwFOXVrJgY3iKY6_SL3VBTN4drhqcSP4zFRPR-ZW0JjHHN8ZBdSow" alt="Image" class="image" id="image">
+    </div>
+
+    <script>
+        const image = document.getElementById('image');
+
+        image.addEventListener('click', (event) => {
+            const rect = image.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Создаем эффект сжатия
+            image.classList.add('shrink');
+
+            // Восстанавливаем изображение через 300 мс (время transition)
+            setTimeout(() => {
+                image.classList.remove('shrink');
+            }, 30);
+
+            console.log(`Координаты клика: (${x}, ${y})`);
+        });
+    </script>
+</body>
+</html>
