@@ -28,7 +28,7 @@
             max-width: 100%;
             width: 350px;
             transition: transform 0.2s ease;
-            
+
         }
         .shrink {
             transform: scale(0.8);
@@ -78,32 +78,33 @@
     <div class="daler">D-Сoin</div>
     <div class="balance" id="balance">Balance: 0$</div>
     <div class="container">
-        <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png"" alt="Image" class="image" id="image">
+        <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png" alt="Image" class="image" id="image">
     </div>
 
     <script>
         const image = document.getElementById('image');
         const balanceElement = document.getElementById('balance'); // Получаем элемент для отображения баланса
-        var balance = 0;
-        
+        let balance = 0;
+        let isTouch = false;
+
         function updateBalance() {
             balanceElement.textContent = `Balance: ${balance}$`; // Обновляем текст элемента с балансом
         }
         
         function createPopup(x, y) {
-            var mon = Math.floor(Math.random() * 5) + 1;
+            const mon = Math.floor(Math.random() * 5) + 1;
             const popup = document.createElement('div');
             popup.classList.add('popup');
             popup.textContent = mon + '$';
             popup.style.left = `${x}px`;
             popup.style.top = `${y}px`;
             document.body.appendChild(popup);
-            //if (balance > 100) {
-            //    popup.textContent = 'max';
-            //} else {
-            balance += mon;
-            updateBalance();
-            //} 
+            if (balance > 100) {
+                popup.textContent = 'max';
+            } else {
+                balance += mon;
+                updateBalance();
+            } 
             
             setTimeout(() => {
                 popup.remove();
@@ -111,6 +112,7 @@
         }
 
         function handleTouchStart(event) {
+            isTouch = true;
             const touches = event.touches;
             for (let i = 0; i < touches.length; i++) {
                 const rect = image.getBoundingClientRect();
@@ -130,6 +132,10 @@
         }
 
         image.addEventListener('click', (event) => {
+            if (isTouch) {
+                isTouch = false;
+                return;
+            }
             const rect = image.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
