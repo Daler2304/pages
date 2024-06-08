@@ -19,7 +19,8 @@
         }
         .image {
             display: block;
-            max-width: 90%;
+            max-width: 100%;
+            width: 350px;
             transition: transform 0.2s ease;
         }
         .shrink {
@@ -34,34 +35,51 @@
             pointer-events: none;
             text-shadow: -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000, 1px 1px 0 #ff0000;
         }
+
+        .balance {
+            position: absolute;
+            top: 10px; /* Расположение линии баланса от верхней части страницы */
+            left: 10px; /* Расположение линии баланса от левой части страницы */
+            color: white;
+            font-size: 20px;
+        }
         @keyframes popup {
             0% {
                 opacity: 1;
-                transform: translateX(-20px) translateY(-30px);
+                transform: translateX(-10px) translateY(-20px);
             }
             100% {
                 opacity: 0;
-                transform: translateX(-20px) translateY(-150px);
+                transform: translateX(-10px) translateY(-150px);
             }
         }
     </style>
 </head>
 <body>
+    <div class="balance" id="balance">Balance: 0$</div>
     <div class="container">
         <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png"" alt="Image" class="image" id="image">
     </div>
 
     <script>
         const image = document.getElementById('image');
-
+        const balanceElement = document.getElementById('balance'); // Получаем элемент для отображения баланса
+        var balance = 0;
+        
+        function updateBalance() {
+            balanceElement.textContent = `Balance: ${balance}$`; // Обновляем текст элемента с балансом
+        }
+        
         function createPopup(x, y) {
+            var mon = Math.floor(Math.random() * 5) + 1;
             const popup = document.createElement('div');
             popup.classList.add('popup');
-            popup.textContent = '5$';
+            popup.textContent = mon + '$';
             popup.style.left = `${x}px`;
             popup.style.top = `${y}px`;
             document.body.appendChild(popup);
-
+            balance += mon;
+            updateBalance();
             setTimeout(() => {
                 popup.remove();
             }, 1000); // Удаление элемента через 1 секунду (длительность анимации)
@@ -80,7 +98,7 @@
                 // Восстанавливаем изображение через 300 мс (время transition)
                 setTimeout(() => {
                     image.classList.remove('shrink');
-                }, 30);
+                }, 10);
 
                 createPopup(touches[i].clientX, touches[i].clientY);
             }
@@ -97,7 +115,7 @@
             // Восстанавливаем изображение через 300 мс (время transition)
             setTimeout(() => {
                 image.classList.remove('shrink');
-            }, 30);
+            }, 40);
 
             createPopup(event.clientX, event.clientY);
 
