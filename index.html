@@ -8,16 +8,29 @@
         body {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background: linear-gradient(rgb(104, 104, 104), rgba(255, 238, 0, 0.6), black);
             user-select: none;
         }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            box-sizing: border-box;
+        }
         .container {
             position: relative;
             overflow: hidden;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .image {
             display: block;
@@ -36,35 +49,6 @@
             animation: popup 1s ease-out forwards;
             pointer-events: none;
             text-shadow: -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000, 1px 1px 0 #ff0000;
-        }
-        .daler {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            font-size: 20px;
-        }
-        .balance {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: white;
-            font-size: 20px;
-            background-color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        .username {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 20px;
-            background-color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none; /* Initially hidden */
         }
         .form-popup {
             position: fixed;
@@ -114,12 +98,31 @@
             color: white;
             font-size: 14px;
         }
+        @media (max-width: 600px) {
+            .popup {
+                font-size: 30px;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 5px;
+            }
+            .top-bar div {
+                margin-bottom: 5px;
+            }
+            .form-popup input[type="text"], .form-popup input[type="submit"] {
+                padding: 8px;
+                margin: 8px 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="daler">D-Сoin</div>
-    <div class="username" id="username"></div>
-    <div class="balance" id="balance">Balance: 0$</div>
+    <div class="top-bar">
+        <div class="daler">D-Coin</div>
+        <div class="username" id="username"></div>
+        <div class="balance" id="balance">Balance: 0$</div>
+    </div>
     <div class="container">
         <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png" alt="Image" class="image" id="image">
     </div>
@@ -211,7 +214,6 @@
             event.preventDefault();
             const name = document.getElementById('name').value;
             usernameElement.textContent = name;
-            usernameElement.style.display = 'block'; // Show the username element
             nameForm.style.display = 'none';
         });
     </script>
