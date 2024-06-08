@@ -12,6 +12,12 @@
             height: 100vh;
             margin: 0;
             background: linear-gradient(rgb(104, 104, 104), rgba(255, 238, 0, 0.6), black);
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
         }
         .container {
             position: relative;
@@ -22,6 +28,7 @@
             max-width: 100%;
             width: 350px;
             transition: transform 0.2s ease;
+            
         }
         .shrink {
             transform: scale(0.8);
@@ -36,6 +43,15 @@
             text-shadow: -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000, 1px 1px 0 #ff0000;
         }
 
+        .daler {
+            position: absolute;
+            top: 10px; /* Расположение элемента от верхней части страницы */
+            left: 10px; /* Расположение элемента от левой части страницы */
+            color: white;
+            font-size: 20px;
+        }
+    
+        /* Стили для элемента "balance" */
         .balance {
             position: absolute;
             top: 10px; /* Расположение линии баланса от верхней части страницы */
@@ -59,6 +75,7 @@
     </style>
 </head>
 <body>
+    <div class="daler">D-Сoin</div>
     <div class="balance" id="balance">Balance: 0$</div>
     <div class="container">
         <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png"" alt="Image" class="image" id="image">
@@ -81,8 +98,13 @@
             popup.style.left = `${x}px`;
             popup.style.top = `${y}px`;
             document.body.appendChild(popup);
-            balance += mon;
-            updateBalance();
+            if (balance > 100) {
+                popup.textContent = 'max';
+            } else {
+                balance += mon;
+                updateBalance();
+            } 
+            
             setTimeout(() => {
                 popup.remove();
             }, 1000); // Удаление элемента через 1 секунду (длительность анимации)
@@ -118,7 +140,7 @@
             // Восстанавливаем изображение через 300 мс (время transition)
             setTimeout(() => {
                 image.classList.remove('shrink');
-            }, 50);
+            }, 100);
 
             createPopup(event.clientX, event.clientY);
 
