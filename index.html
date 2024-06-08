@@ -25,6 +25,28 @@
         .shrink {
             transform: scale(0.8);
         }
+        .popup {
+            position: absolute;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            animation: popup 1s ease-out forwards;
+            pointer-events: none; /* Disable pointer events for the popup */
+        }
+        @keyframes popup {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+        }
+
+        body {
+            background-color: black;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +56,19 @@
 
     <script>
         const image = document.getElementById('image');
+
+        function createPopup(x, y) {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.textContent = '+5';
+            popup.style.left = `${x}px`;
+            popup.style.top = `${y}px`;
+            document.body.appendChild(popup);
+
+            setTimeout(() => {
+                popup.remove();
+            }, 1000); // Удаление элемента через 1 секунду (длительность анимации)
+        }
 
         function handleTouchStart(event) {
             const touches = event.touches;
@@ -50,6 +85,9 @@
                     image.classList.remove('shrink');
                 }, 30);
 
+                createPopup(touches[i].clientX, touches[i].clientY);
+
+                console.log(`Координаты касания ${i+1}: (${x}, ${y})`);
             }
         }
 
@@ -65,6 +103,8 @@
             setTimeout(() => {
                 image.classList.remove('shrink');
             }, 30);
+
+            createPopup(event.clientX, event.clientY);
 
             console.log(`Координаты клика: (${x}, ${y})`);
         });
