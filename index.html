@@ -98,12 +98,12 @@
             popup.style.left = `${x}px`;
             popup.style.top = `${y}px`;
             document.body.appendChild(popup);
-            if (balance > 100) {
-                popup.textContent = 'max';
-            } else {
-                balance += mon;
-                updateBalance();
-            } 
+            //if (balance > 100) {
+            //    popup.textContent = 'max';
+            //} else {
+            balance += mon;
+            updateBalance();
+            //} 
             
             setTimeout(() => {
                 popup.remove();
