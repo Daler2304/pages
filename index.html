@@ -88,7 +88,6 @@
                 transform: translateX(-10px) translateY(-150px);
             }
         }
-
         footer {
             bottom: 0;
             width: 100%;
@@ -98,14 +97,13 @@
             color: white;
             font-size: 14px;
         }
-
         .div-ip {
+            display: none;
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
         }
-
         @media (max-width: 300px) {
             .popup {
                 font-size: 20px;
@@ -127,7 +125,7 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="daler">D-Coin</div>
+        <div class="daler" id="daler">D-Coin</div>
         <div class="username" id="username"></div>
         <div class="balance" id="balance">Balance: 0$</div>
     </div>
@@ -141,11 +139,10 @@
             <input type="submit" value="Submit">
         </form>
     </div>
-    <div class="div-ip">
+    <div class="div-ip" id="ipDiv">
         <h1>Your IP Address</h1>
         <h4 id="ip-address">Fetching IP...</h4>
     </div>
-    <br>
     <footer>&copy; Daler 2024</footer>
 
     <script>
@@ -154,13 +151,15 @@
         const usernameElement = document.getElementById('username');
         const nameForm = document.getElementById('nameForm');
         const registrationForm = document.getElementById('registrationForm');
+        const ipDiv = document.getElementById('ipDiv');
         let balance = 0;
         let isTouch = false;
+        let clickCount = 0;
 
         function updateBalance() {
             balanceElement.textContent = `Balance: ${balance}$`;
         }
-        
+
         function createPopup(x, y) {
             const mon = Math.floor(Math.random() * 5) + 1;
             const popup = document.createElement('div');
@@ -232,19 +231,25 @@
 
         async function fetchIPAddress() {
             try {
-                // Запрос к API ipify для получения IP-адреса
                 let response = await fetch('https://api.ipify.org?format=json');
                 let data = await response.json();
-                // Отображение IP-адреса на странице
                 document.getElementById('ip-address').textContent = `Your IP address is: ${data.ip}`;
             } catch (error) {
-                // Обработка ошибок
                 document.getElementById('ip-address').textContent = 'Error fetching IP address';
             }
         }
 
-        // Вызов функции для получения и отображения IP-адреса
-        fetchIPAddress();
+        const dalerElement = document.getElementById('daler');
+        dalerElement.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 3) {
+                ipDiv.style.display = 'block';
+                fetchIPAddress();
+            } else if (clickCount > 3) {
+                ipDiv.style.display = 'none';
+                clickCount = 0;
+            }
+        });
     </script>
 </body>
 </html>
