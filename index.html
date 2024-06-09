@@ -24,6 +24,16 @@
             color: white;
             box-sizing: border-box;
         }
+        .top-bar > div {
+            flex: 1;
+            text-align: center;
+        }
+        .top-bar > div:first-child {
+            text-align: left;
+        }
+        .top-bar > div:last-child {
+            text-align: right;
+        }
         .container {
             position: relative;
             overflow: hidden;
@@ -104,10 +114,6 @@
             padding: 30px;
             text-align: center;
         }
-        .username {
-            position: fixed;
-            left: 50%;
-        }
         @media (max-width: 300px) {
             .popup {
                 font-size: 20px;
@@ -117,7 +123,8 @@
                 align-items: flex-start;
                 padding: 10px 5px;
             }
-            .top-bar div {
+            .top-bar > div {
+                text-align: left;
                 margin-bottom: 5px;
             }
             .form-popup input[type="text"], .form-popup input[type="submit"] {
@@ -129,7 +136,7 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="daler" id="daler">D-Coin</div>
+        <div id="daler">D-Coin</div>
         <div class="username" id="username"></div>
         <div class="balance" id="balance">Balance: 0$</div>
     </div>
@@ -256,4 +263,4 @@
         });
     </script>
 </body>
-</html>
+</html
