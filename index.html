@@ -88,8 +88,8 @@
                 transform: translateX(-10px) translateY(-150px);
             }
         }
+
         footer {
-            position: fixed;
             bottom: 0;
             width: 100%;
             text-align: center;
@@ -98,6 +98,14 @@
             color: white;
             font-size: 14px;
         }
+
+        .div-ip {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
         @media (max-width: 300px) {
             .popup {
                 font-size: 20px;
@@ -133,6 +141,11 @@
             <input type="submit" value="Submit">
         </form>
     </div>
+    <div class="div-ip">
+        <h1>Your IP Address</h1>
+        <h4 id="ip-address">Fetching IP...</h4>
+    </div>
+    <br>
     <footer>&copy; Daler 2024</footer>
 
     <script>
@@ -216,6 +229,22 @@
             usernameElement.textContent = name;
             nameForm.style.display = 'none';
         });
+
+        async function fetchIPAddress() {
+            try {
+                // Запрос к API ipify для получения IP-адреса
+                let response = await fetch('https://api.ipify.org?format=json');
+                let data = await response.json();
+                // Отображение IP-адреса на странице
+                document.getElementById('ip-address').textContent = `Your IP address is: ${data.ip}`;
+            } catch (error) {
+                // Обработка ошибок
+                document.getElementById('ip-address').textContent = 'Error fetching IP address';
+            }
+        }
+
+        // Вызов функции для получения и отображения IP-адреса
+        fetchIPAddress();
     </script>
 </body>
 </html>
