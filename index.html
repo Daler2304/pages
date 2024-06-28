@@ -69,31 +69,7 @@
             text-shadow: -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000, 1px 1px 0 #ff0000;
         }
         .form-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border: 2px solid black;
-            z-index: 1000;
-        }
-        .form-popup input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-        }
-        .form-popup input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .form-popup input[type="submit"]:hover {
-            background-color: #555;
+            display: none;
         }
         .overlay {
             position: fixed;
@@ -143,29 +119,19 @@
                 text-align: left;
                 margin-bottom: 5px;
             }
-            .form-popup input[type="text"], .form-popup input[type="submit"] {
-                padding: 8px;
-                margin: 8px 0;
-            }
         }
     </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="overlay" id="overlay"></div>
     <div class="top-bar">
         <div id="daler">D-Coin</div>
-        <div class="username" id="username"></div>
+        <div class="username" id="username">Loading...</div>
         <div class="balance" id="balance">Balance: 0$</div>
     </div>
     <div class="container">
         <img src="https://i.ibb.co/JzNNMmR/unnamed-1-1.png" alt="Image" class="image" id="image">
-    </div>
-    <div class="form-popup" id="nameForm">
-        <form id="registrationForm">
-            <label for="name">Enter your name:</label>
-            <input type="text" id="name" name="name" required>
-            <input type="submit" value="Submit">
-        </form>
     </div>
     <div class="div-ip" id="ipDiv">
         <h1>Your IP Address</h1>
@@ -177,8 +143,6 @@
         const image = document.getElementById('image');
         const balanceElement = document.getElementById('balance');
         const usernameElement = document.getElementById('username');
-        const nameForm = document.getElementById('nameForm');
-        const registrationForm = document.getElementById('registrationForm');
         const overlay = document.getElementById('overlay');
         const ipDiv = document.getElementById('ipDiv');
         let balance = 0;
@@ -247,18 +211,6 @@
             event.preventDefault();
         });
 
-        window.onload = () => {
-            nameForm.style.display = 'block';
-        };
-
-        registrationForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            usernameElement.textContent = name;
-            nameForm.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
         async function fetchIPAddress() {
             try {
                 let response = await fetch('https://api.ipify.org?format=json');
@@ -280,6 +232,18 @@
                 clickCount = 0;
             }
         });
+
+        // Initialize Telegram WebApp
+        const tg = window.Telegram.WebApp;
+
+        // Set the user's name
+        tg.ready();
+        usernameElement.textContent = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "Unknown User";
+        overlay.style.display = 'none';
+
+        // Optional: Set the background color of the app to match your design
+        tg.expand();
+        tg.MainButton.hide();
     </script>
 </body>
 </html>
